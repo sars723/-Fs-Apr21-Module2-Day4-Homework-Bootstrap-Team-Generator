@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<!--
+    WELCOME TO THE STRIVE TEAM GENERATOR!
+
+    In this app you will generate teams and assign the participants to them.
+    You will use the Bootstrap components for the elements of your app.
+
+    The features are the following:
+    - The user should be able to add a list of names, find a way to get the user input and fill a list with the new name.
+    - The user should be able to set the number of teams he wants, so that they will be generated. A team is just another list to be displayed.
+    - An "Assign" button will be required in order to launch the team generation functionality.
+    - Every time the user clicks on the "Assign" button, a random name is placed in a team and removed from the initial list.
+    - Each team should be inside a "column" to be responsive.
+    - [EXTRA] Create a button to remove a user from a team, and putting him back in the main list, waiting to be reassigned.
+    - [EXTRA] Create a button to reset the state of the app.
+-->
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+  </head>
+  <style>
+    .jumbotron-background-img {
+      /*  background-image: url("images/background-image.jfif");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      background-size: cover;
+      height: 300px; */
+      background-color: #dbbf94;
+    }
+  </style>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#"
+        ><img src="/images/team-logo.png" style="width: 100px" alt=""
+      /></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="jumbotron jumbotron-fluid jumbotron-background-img">
+      <div class="container">
+        <h1 class="display-4 text-center">Random Team Generator</h1>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row my-5 py-5">
+        <div class="col-12 col-md-4">
+          <div class="bg-light text-white">
+            <input type="text" id="input-name" placeholder="Enter names" />
+            <button onclick="addNamesToList()">Add to the List</button>
+            <h6 class="text-dark text-center py-3">List of Names</h6>
+            <ul class="list-of-names reset" id="list-of-names"></ul>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="bg-light text-white">
+            <input
+              type="text"
+              id="input-team"
+              placeholder="Enter number of Teams"
+            />
+            <button id="assign-teams" onclick="addTeamToList()">
+              Add Team
+            </button>
+            <h6 class="text-dark text-center py-3">List of Teams</h6>
+            <ul class="reset" id="list-of-teams"></ul>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div id="teams" class="bg-light text-white">
+            <button onclick="assignNamesRandomly()">
+              Assign names to teams
+            </button>
+            <h6 class="text-dark text-center py-3">Teams</h6>
+            <div class="reset" id="assigned-teams"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 text-center">
+        <button onclick="reset()">reset</button>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container-fluid bg-dark mt-5">
+        <div class="row">
+          <div class="col-12">
+            <h5 class="text-center text white">contact us</h5>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      const addNamesToList = function () {
+        let inputName = document.getElementById("input-name");
+        let ulListOfNames = document.getElementById("list-of-names");
+        let li = document.createElement("li");
+
+        li.innerText = inputName.value;
+        li.classList.add("list-name");
+        inputName.value = "";
+        li.style.color = "black";
+        ulListOfNames.appendChild(li);
+      };
+      const addTeamToList = function () {
+        let inputTeam = document.getElementById("input-team");
+        let ulListOfTeams = document.getElementById("list-of-teams");
+        ulListOfTeams.innerHTML = "";
+        for (let i = 0; i < inputTeam.value; i++) {
+          let li = document.createElement("li");
+          li.innerText = "Team" + (i + 1);
+          li.classList.add("list-team");
+          li.style.color = "black";
+
+          ulListOfTeams.appendChild(li);
+        }
+        inputTeam.value = "";
+      };
+
+      const assignNamesRandomly = function () {
+        let liName = document.getElementsByClassName("list-name");
+        let liTeam = document.getElementsByClassName("list-team");
+        let divTeam = document.getElementById("assigned-teams");
+        divTeam.innerHTML = "";
+        let arrName = [];
+        let arrTeam = [];
+        let randomNumberTeam = 0;
+        for (let i = 0; i < liName.length; i++) {
+          arrName[i] = liName[i].innerText; //collect all names in an array
+        }
+        //creates a header(team1 team2...) and creates an ul element for each team
+        for (let i = 0; i < liTeam.length; i++) {
+          arrTeam[i] = i + 1;
+          let h6 = document.createElement("h6");
+          h6.classList.add("all-h6");
+          h6.style.color = "black";
+          h6.innerText = "team" + (i + 1);
+          divTeam.appendChild(h6);
+          let ul = document.createElement("ul");
+          ul.setAttribute("id", "name-" + (i + 1));
+          divTeam.appendChild(ul);
+        }
+        //a random team would be selected and the frist name assigned to it
+        for (let i = 0; i < liName.length; i++) {
+          randomTeam = 1 + Math.floor(Math.random() * arrTeam.length);
+          let li = document.createElement("li");
+          li.innerText = arrName[i];
+          li.style.color = "black";
+          let btnRemove = document.createElement("button"); // a button to delete a name from a team
+          btnRemove.innerText = "remove ";
+          btnRemove.style.marginLeft = "10px";
+          btnRemove.style.borderColor = "transparent";
+          btnRemove.onclick = function () {
+            let ulListOfNames = document.getElementById("list-of-names");
+            let newli = document.createElement("li");
+            newli.innerText = arrName[i];
+            newli.style.color = "red";
+            ulListOfNames.appendChild(newli);
+            li.remove();
+            btnRemove.remove();
+          };
+
+          let ulNameHolder = document.getElementById("name-" + randomTeam); //get a reference of a random team
+          ulNameHolder.appendChild(li); //append the first name in a random team
+          li.appendChild(btnRemove);
+          arrName.slice(i, 1); //it removes the name which is already appended in a team from the name array
+        }
+        let listOfNames = liName.length;
+        for (let i = listOfNames - 1; i >= 0; i--) {
+          liName[i].remove();
+        }
+      };
+      const reset = function () {
+        let newElements = document.getElementsByClassName("reset");
+        for (let i = 0; i < newElements.length; i++) {
+          newElements[i].innerHTML = "";
+        }
+      };
+    </script>
+  </body>
+</html>
