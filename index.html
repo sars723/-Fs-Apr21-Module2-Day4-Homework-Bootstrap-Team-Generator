@@ -135,8 +135,19 @@
       integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
       crossorigin="anonymous"
     ></script>
-
     <script>
+      /*  let arrRandomlyGeneratedNumbers = [];
+      arrRandomlyGeneratedNumbers.push(Math.floor(Math.random() * 10));
+      let randomNumber = Math.floor(Math.random() * 10);
+      for (let i = 0; i < 10; i++) {
+        if (randomNumber === arrRandomlyGeneratedNumbers[i]) {
+          randomNumber = Math.floor(Math.random() * 10);
+        } else {
+          arrRandomlyGeneratedNumbers.push(randomNumber);
+        }
+      }
+      console.log(arrRandomlyGeneratedNumbers); */
+
       const addNamesToList = function () {
         let inputName = document.getElementById("input-name");
         let ulListOfNames = document.getElementById("list-of-names");
@@ -199,6 +210,7 @@
           btnRemove.onclick = function () {
             let ulListOfNames = document.getElementById("list-of-names");
             let newli = document.createElement("li");
+            newli.classList.add("list-name");
             newli.innerText = arrName[i];
             newli.style.color = "red";
             ulListOfNames.appendChild(newli);
@@ -215,6 +227,8 @@
         for (let i = listOfNames - 1; i >= 0; i--) {
           liName[i].remove();
         }
+        console.log(listOfNames);
+        console.log(liName.length);
       };
       const reset = function () {
         let newElements = document.getElementsByClassName("reset");
